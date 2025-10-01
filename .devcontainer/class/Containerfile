@@ -1,0 +1,56 @@
+FROM quay.io/jupyter/datascience-notebook:python-3.11.6
+
+ENV DEBIAN_FRONTEND noninteractive
+ENV DEBCONF_NOWARNINGS yes
+
+USER root
+
+### System packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        lmodern file \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
+### Quarto
+ENV QUARTO_VERSION 1.8.24
+RUN curl --silent -L --fail \
+        https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb > /tmp/quarto.deb && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends /tmp/quarto.deb && \
+    rm -rf /tmp/quarto.deb /var/lib/apt/lists/*
+
+RUN groupadd jovyan \
+    && usermod -g jovyan -a -G users,sudo jovyan \
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+USER ${NB_USER}
+
+### Compiler flags for R packages
+RUN R -e "dotR <- file.path(Sys.getenv('HOME'), '.R'); if(!file.exists(dotR)){ dir.create(dotR) }; Makevars <- file.path(dotR, 'Makevars'); if (!file.exists(Makevars)){  file.create(Makevars) }; cat('\nCXXFLAGS=-O3 -fPIC -Wno-unused-variable -Wno-unused-function', 'CXX14 = g++ -std=c++1y -fPIC', 'CXX = g++', 'CXX11 = g++', file = Makevars, sep = '\n', append = TRUE)"
+RUN chmod 666 ${HOME}/.R/Makevars
+
+### CRAN mirror
+RUN R -e "dotRprofile <- file.path(Sys.getenv('HOME'), '.Rprofile'); if(!file.exists(dotRprofile)){ file.create(dotRprofile) }; cat('local({r <- getOption(\"repos\")', 'r[\"CRAN\"] <- \"https://cloud.r-project.org\"', 'options(repos=r)', '})', file = dotRprofile, sep = '\n', append = TRUE)"
+RUN chmod 666 ${HOME}/.Rprofile
+
+RUN pip install \ 
+        jupyterlab-quarto==0.2.8 \
+        csvkit==2.1.0 \
+        cvxpy==1.7.3 \
+        yfinance==0.2.66
+
+RUN quarto install tinytex
+
+### Additional editing and debugging tools for VS Code R development
+RUN echo 'options(repos=c(CRAN="https://cloud.r-project.org"))' > ~/.Rprofile && \
+    R -q -e 'remotes::install_version("markdown", version="1.12")' && \
+    R -q -e 'remotes::install_version("languageserver", version="0.3.16")' && \
+    R -q -e 'remotes::install_version("httpgd", version="2.0.1")' && \
+    R -q -e 'remotes::install_github("ManuelHentschel/vscDebugger")'
+
+### Prints Jupyter server token when terminal is opened
+RUN echo "echo \"Jupyter server token: \$(jupyter server list 2>&1 | grep -oP '(?<=token=)[[:alnum:]]*')\"" > ${HOME}/.get-jupyter-url.sh && \
+    echo "sh \${HOME}/.get-jupyter-url.sh" >> ${HOME}/.bashrc
+
+RUN R -q -e 'install.packages(c("bootstrap","resample","kableExtra"))'
