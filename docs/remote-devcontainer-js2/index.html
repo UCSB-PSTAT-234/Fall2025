@@ -1,0 +1,187 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Quickstart: Development Container with Visual Studio Code</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="remote-devcontainer-js2"
+                  title="Quickstart: Development Container with Visual Studio Code"
+                  environment="web"
+                  feedback-link="https://github.com/UCSB-PSTAT-234/Fall2025/issues">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p>In this tutorial, you will configure and start using development container.</p>
+<p>This codelab assumes you are deploying a development container on Jetstream2 virtual machine. Using another virtual machine would be similar but not explicitly covered.</p>
+<h2 is-upgraded>Prerequisites</h2>
+<p>Additionally, following are additional prerequisites to deploy development containers:</p>
+<ol type="1">
+<li>Visual Studio Code&#39;s <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack" target="_blank">Remote Development Extension Pack</a></li>
+<li>Docker container runtime: pre-installed in Jetstream2 VM images (<a href="https://docs.jetstream-cloud.org/general/docker/" target="_blank">Jetstream2 documentation</a>)</li>
+</ol>
+<h2 is-upgraded>Codelab Objectives</h2>
+<p>In this codelab, you will use a Jetstream2 virtual machine to deploy a development container.</p>
+<ol type="1">
+<li>Create and connect to Jetstream2 virtual machine.</li>
+<li>Add or import development container configuration files.</li>
+<li>Use VS Code to start development container.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create and Connect to Jetstream2 VM Instance" duration="0">
+        <p>Jetstream2 allows you to create virtual machine instances.</p>
+<ol type="1">
+<li>Read Jetstream2 documentation for <a href="https://docs.jetstream-cloud.org/getting-started/first-instance/" target="_blank">creating a VM instance</a></li>
+<li>Evaluate if the default choices are suitable. For this class, <code>m3.medium</code> should be sufficiently powerful.</li>
+<li>Built-in root disk storage size is small. Enter a larger size for your root disk size:<br><img alt="Volume backed storage" src="img/6505a7636d622237.png"></li>
+<li>Connect to your VM with &#34;Web Shell&#34; found in Interactions pane. <img alt="Interactions Pane" src="img/b2eecdace6aea648.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Install Visual Studio Code on VM" duration="0">
+        <p>We will install VS Code in your VM, and connect to it from your local installation of VS Code.</p>
+<ol type="1">
+<li>In &#34;Web Shell&#34;, download and expand VS Code: <pre><code language="language-bash" class="language-bash">curl -Lk &#39;https://code.visualstudio.com/sha/download?build=stable&amp;os=cli-alpine-x64&#39; --output vscode_cli.tar.gz
+tar -xf vscode_cli.tar.gz
+</code></pre>
+</li>
+<li>Above command extracts standalone <code>code</code> executable in the same directory.</li>
+<li>To configure your VM to accept remote tunnel connections from your local VS Code, we will install VS Code as a service. A service runs in the background even after reboot. <pre><code language="language-bash" class="language-bash">./code tunnel service install
+sudo loginctl enable-linger $USER
+</code></pre>
+Use your GitHub credentials to login.</li>
+<li>In your local installation of VS Code, type <code>Ctrl+Shift+p</code> and start typing <code>Remote-Tunnels: Connect to Tunnel...</code></li>
+<li>Choose GitHub and find your VM from the list. Once connection is established, bottom left of your window displays your VM name:<br><img alt="Remote Tunnel Established" src="img/e39617c4e7a53645.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Import Development Container Files" duration="0">
+        <h2 is-upgraded>Cloning a repository (PSTAT 234)</h2>
+<p>We will clone a repository with development container configuration files.</p>
+<ol type="1">
+<li>Open a new VS Code window: right-click on VS Code icon and choose <code>New Window</code></li>
+<li>Click on <code>Clone Repository</code> button, then <code>Clone from GitHub</code>.</li>
+<li>Start typing and select <code>UCSB-PSTAT-234/Fall2025</code>.</li>
+<li>Choose the file location on VM where the repository will be cloned. Press enter or click <code>Select as Repository Destination</code>.</li>
+<li>After opening the directory with cloned repository, your window will look like this: <img alt="devcontainer project directory" src="img/122ab2899f679e9.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Working with Development Containers" duration="0">
+        <p>Now you are ready to start your development container!</p>
+<p>Here are the essential commands in Command Palette (shortcut is <code>Ctrl+Shift+p</code>):</p>
+<ul>
+<li><strong>Dev Containers: Reopen in Container</strong>: opens the project directory inside the container.</li>
+<li><strong>Dev Containers: Rebuild and Reopen in Container</strong>: rebuild the container image (i.e.,<code>Dockerfile</code>) or <code>devcontainer.json</code> changes.</li>
+<li><strong>Dev Containers: Rebuild Without Cache and Reopen in Container</strong>: rebuild the container image without any previous container build artifacts.</li>
+</ul>
+<p>After your window connects to the running container, the status bar will change: <img alt="devcontainer connected" src="img/1b7fd7d0fe5a705c.png"></p>
+<p>Now your VS Code window is connected to a remote development container!</p>
+<p>Interactions in this window are performed on your virtual machine, inside the container.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Navigating VS Code (Remote Host)" duration="0">
+        <p>When bottom left does not indicate Dev Container, you are on a remote host via a remote tunnel.</p>
+<ol type="1">
+<li><strong>Host File Explorer</strong> shows files on the host (Jetstream2 VM)<br><img alt="Host File Explorer" src="img/f979d681cb7590ea.png"></li>
+<li><strong>Host Remote Eplorer - Remote Tunnels</strong> shows various cremote compute resources<br><img alt="Host Remote Explorer - Remote Tunnels" src="img/1acf6b2ae00d7f53.png"></li>
+<li><strong>Host Remote Explorer - Dev Containers</strong> lists development containers <img alt="Host Remote Explorer - Dev Containers" src="img/276864297793f75c.png"></li>
+<li><strong>Host Container Tools</strong> lists running containers and container images <img alt="Host Container Tools" src="img/8919eb5e9425fdc0.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Navigating VS Code (Development Container)" duration="0">
+        <p>When bottom left shows Dev Container, you are inside a container.</p>
+<ol type="1">
+<li><strong>Devcontainer File Explorer</strong> shows files inside the container <img alt="Devcontainer File Explorer" src="img/c642a1ae6d5d0bf2.png"></li>
+<li><strong>Devcontainer Remote Explorer</strong> lists development containers <img alt="Devcontainer Dev Containers" src="img/94acfa570ed4c979.png"></li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Manage Running/Stopped Containers" duration="0">
+        <p>After you modify your devcontainers settings (rebuilding, adding/removing lines in <code>Dockerfile</code>, etc.), VS Code creates new container instances without cleaning up ones you were using.</p>
+<p>This VS Code behavior results in</p>
+<ul>
+<li>Increasing number of running containers you do not use any more</li>
+<li>Using up more memory</li>
+<li>Using more disk storage</li>
+</ul>
+<p>Eventually, you will need to clean up unused containers and images to reclain memory and disk storage space.</p>
+<p>You can remove containers from VS Code. First, open <code>Remote Explorer</code>.</p>
+<p>If you are inside a container, your window might look similar to the following (note bottom left):</p>
+<p class="image-container"><img alt="remote explorer listing all containers, highlighting container in use" src="img/78bdb0f332c5a9fa.png"></p>
+<p>If you are on the VM host, but not inside the container, your window might look similar to the following (note bottom left):</p>
+<p class="image-container"><img alt="remote explorer listing all containers" src="img/435f4ec453a4f313.png"></p>
+<p>To remove containers, you can right click on a container and choose &#34;Stop Container&#34; first, then, &#34;Remove Container&#34;</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Manage Unused Container Images" duration="0">
+        <p>After you remove unused running containers, you might also want to remove unused container images. These have been downloaded when VS Code built container images from your <code>Dockerfile</code>, so if needed, they will be downloaded again automatically. Hence, it is fine to remove all container images that can be deleted.</p>
+<p>If you haven&#39;t installed already, install Docker extension on the host (note bottom left). Then, click on Prune icon to delete unused container images.</p>
+<p class="image-container"><img alt="Docker extension listing container images" src="img/52f2e9a58b92787b.png"></p>
+<p>After pruning completes, you will see a notification.</p>
+<h2 is-upgraded>Troubleshooting: disk storage is full</h2>
+<aside class="warning"><p>If you cannot connect to your development container with VS Code, you might have completely run out of disk space. If so, you can connect using SSH (from your laptop) or web console (on Jetstream2 VM)<br><img alt="Jetstream2 Web Shell" src="img/acd58c7109baf4d6.png"></p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Congratulations!" duration="0">
+        <p>You have completed the following steps:</p>
+<ol type="1">
+<li>Created a virtual machine on Jetstream2.</li>
+<li>Installed a remote tunnel service in your VM.</li>
+<li>Connected your local VS Code to the remote VM.</li>
+<li>Cloned repository files from GitHub to your VM.</li>
+<li>Started a development container inside your VM.</li>
+<li>Learned how to manage running/stopped container instances.</li>
+<li>Learned how to delete unused container images.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
