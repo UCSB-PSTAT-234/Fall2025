@@ -3,13 +3,13 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2025-10-06T19:35:49Z",
-  "id": "devcontainer-with-remote-tunnel-vscode",
+  "updated": "2025-10-06T20:29:06Z",
+  "id": "remote-devcontainer-js2",
   "duration": 0,
   "title": "Quickstart: Development Container with Visual Studio Code",
   "authors": "Sang-Yun Oh",
-  "summary": "“Development Container with Visual Studio Code (Remote Tunnel)”",
-  "source": "../devcontainer-with-vscode-tunnel.md",
+  "summary": "“Development Container with Visual Studio Code with Remote Tunnel”",
+  "source": "../codelabs/devcontainer-with-vscode-tunnel.md",
   "theme": "",
   "status": [
     "[draft]"
@@ -19,5 +19,5 @@
   ],
   "tags": [],
   "feedback": "https://github.com/UCSB-PSTAT-234/Fall2025/issues",
-  "url": "devcontainer-with-remote-tunnel-vscode"
+  "url": "remote-devcontainer-js2"
 }
