@@ -1,0 +1,33 @@
+name: codelabs
+
+on:
+  push:
+    branches: [ private ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: xSAVIKx/claat-gh-action@v0
+      with:
+        format: "html"
+        environment: "web"
+        source: "codelabs/jetstream2-remote-host.md"
+        output: "codelabs/html"
+
+    - uses: xSAVIKx/claat-gh-action@v0
+      with:
+        format: "html"
+        environment: "web"
+        source: "codelabs/devcontainer-with-vscode.md"
+        output: "codelabs/html"
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: "codelabs/html"
