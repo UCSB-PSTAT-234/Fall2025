@@ -142,7 +142,7 @@ Use your GitHub credentials to login.</li>
 <p>If you are inside a container, your window might look similar to the following (note bottom left):</p>
 <p class="image-container"><img alt="remote explorer listing all containers, highlighting container in use" src="img/78bdb0f332c5a9fa.png"></p>
 <p>If you are on the VM host, but not inside the container, your window might look similar to the following (note bottom left):</p>
-<p class="image-container"><img alt="remote explorer listing all containers" src="img/435f4ec453a4f313.png"></p>
+<p class="image-container"><img alt="remote explorer listing all containers" src="img/963912dcb54a5e9c.png"></p>
 <p>To remove containers, you can right click on a container and choose &#34;Stop Container&#34; first, then, &#34;Remove Container&#34;</p>
 
 
@@ -150,11 +150,13 @@ Use your GitHub credentials to login.</li>
     
       <google-codelab-step label="Manage Unused Container Images" duration="0">
         <p>After you remove unused running containers, you might also want to remove unused container images. These have been downloaded when VS Code built container images from your <code>Dockerfile</code>, so if needed, they will be downloaded again automatically. Hence, it is fine to remove all container images that can be deleted.</p>
-<p>If you haven&#39;t installed already, install Docker extension on the host (note bottom left). Then, click on Prune icon to delete unused container images.</p>
-<p class="image-container"><img alt="Docker extension listing container images" src="img/52f2e9a58b92787b.png"></p>
+<p>If you haven&#39;t installed it already, install Container Tools Extension on the host (i.e., not in the container). Then, click on Prune icon to delete unused container images.</p>
+<p class="image-container"><img alt="Docker extension listing container images" src="img/df7dc4ed0a551db5.png"></p>
 <p>After pruning completes, you will see a notification.</p>
 <h2 is-upgraded>Troubleshooting: disk storage is full</h2>
-<aside class="warning"><p>If you cannot connect to your development container with VS Code, you might have completely run out of disk space. If so, you can connect using SSH (from your laptop) or web console (on Jetstream2 VM)<br><img alt="Jetstream2 Web Shell" src="img/acd58c7109baf4d6.png"></p>
+<aside class="warning"><p>If you cannot connect to your development container with VS Code, you might have completely run out of disk space. If so, you can connect using SSH (from your laptop) or web console (on Jetstream2 VM)<br><img alt="Jetstream2 Web Shell" src="img/acd58c7109baf4d6.png"><br> Once you are in a command line, execute</p>
+<pre><code>docker system prune
+</code></pre>
 </aside>
 
 
