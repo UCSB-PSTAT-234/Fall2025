@@ -38,7 +38,9 @@ RUN pip install \
         jupyterlab-quarto==0.2.8 \
         csvkit==2.1.0 \
         cvxpy==1.7.3 \
-        yfinance==0.2.66
+        yfinance==0.2.66 \
+        otter-grader \
+        radian
 
 RUN quarto install tinytex
 
@@ -53,4 +55,5 @@ RUN echo 'options(repos=c(CRAN="https://cloud.r-project.org"))' > ~/.Rprofile &&
 RUN echo "echo \"Jupyter server token: \$(jupyter server list 2>&1 | grep -oP '(?<=token=)[[:alnum:]]*')\"" > ${HOME}/.get-jupyter-url.sh && \
     echo "sh \${HOME}/.get-jupyter-url.sh" >> ${HOME}/.bashrc
 
-RUN R -q -e 'install.packages(c("bootstrap","resample","kableExtra"))'
+RUN R -q -e 'install.packages(c("bootstrap","resample","kableExtra"))' && \
+    R -q -e 'remotes::install_version("reticulate", version="1.43.0")'

@@ -1,8 +1,8 @@
 {
     "name": "PSTAT 234 class",
     
-    //"dockerFile": "Containerfile",
-    "image": "ghcr.io/ucsb-pstat-234/fall2025:class-v0.0.2-alpha",
+    "dockerFile": "Containerfile",
+    //"image": "ghcr.io/ucsb-pstat-234/fall2025:class-v0.0.2-alpha",
     
 
     "overrideCommand": false,
@@ -10,6 +10,10 @@
     
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/jovyan/work,type=bind", 
     "workspaceFolder": "/home/jovyan/work",
+
+    "containerEnv": {
+        "RETICULATE_PYTHON": "/opt/conda/bin/python"
+    },
 
     "forwardPorts": [8888],
     "portsAttributes": {
