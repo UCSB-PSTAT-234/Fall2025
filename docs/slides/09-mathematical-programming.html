@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="09-mathematical-programming_files/libs/clipboard/clipboard.min.js"></script>
+<script src="09-mathematical-programming_files/libs/quarto-html/tabby.min.js"></script>
+<script src="09-mathematical-programming_files/libs/quarto-html/popper.min.js"></script>
+<script src="09-mathematical-programming_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="09-mathematical-programming_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="09-mathematical-programming_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="09-mathematical-programming_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
+
+  <meta name="author" content="Sang-Yun Oh">
+  <title>Mathematical Programming/Optimization, Part 2 Convex Optimization</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="09-mathematical-programming_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="09-mathematical-programming_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="09-mathematical-programming_files/libs/revealjs/dist/theme/quarto-74d4107396ffc13cdeea09c41711fcad.css">
+  <link href="09-mathematical-programming_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="09-mathematical-programming_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="09-mathematical-programming_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="09-mathematical-programming_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Mathematical Programming/Optimization, Part 2<br>Convex Optimization</h1>
+  <p class="subtitle">PSTAT 234 (Fall 2025)</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Sang-Yun Oh 
+</div>
+        <p class="quarto-title-affiliation">
+            University of California, Santa Barbara
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="example-optimization-problem-internet-ads" class="title-slide slide level1 center">
+<h1>Example Optimization Problem: Internet Ads</h1>
+
+</section>
+<section id="problem-formulation-for-internet-ads" class="slide level2">
+<h2>Problem formulation for Internet Ads</h2>
+<p>Suppose we are an advertising agency and want to optimize ad scheduling over <span class="math inline">\(T\)</span> time slots.</p>
+<ul>
+<li>Ads/advertisers: <span class="math inline">\(a=1, \ldots, A\)</span> (total of <span class="math inline">\(A\)</span> ads)</li>
+<li>Timeslots: <span class="math inline">\(t=1, \ldots, T\)</span> (up to <span class="math inline">\(T\)</span> time slots)</li>
+<li>Site visitors: <span class="math inline">\(v_t\)</span> in time slot <span class="math inline">\(t\)</span></li>
+<li>Ads displayed: <span class="math inline">\(d_{at} \geq 0\)</span> is ad <span class="math inline">\(a\)</span> displayed in period <span class="math inline">\(t\)</span>.</li>
+</ul>
+<div class="fragment">
+<p>Our constraints are</p>
+<ul>
+<li>At most <span class="math inline">\(v_t\)</span> displays: <span class="math inline">\(\sum_a d_{at} \leq v_t\)</span></li>
+<li>At least <span class="math inline">\(c_a\)</span> displays: <span class="math inline">\(\sum_t d_{at} \geq c_a\)</span> (by contract).</li>
+<li>Our goal is to choose <span class="math inline">\(d_{at}\)</span>.</li>
+</ul>
+</div>
+</section>
+<section id="clicks-and-revenue" class="slide level2">
+<h2>Clicks and revenue</h2>
+<ul>
+<li>Number of clicks: <span class="math inline">\(k_{at}\)</span> on ad <span class="math inline">\(a\)</span> in period <span class="math inline">\(t\)</span>.</li>
+<li>Click model: <span class="math inline">\(k_{at} = p_{at}d_{at}\)</span>, where</li>
+<li>Click probability: <span class="math inline">\(p_{at} \in [0,1]\)</span> is for ad <span class="math inline">\(a\)</span> in time <span class="math inline">\(t\)</span>.</li>
+<li>Ad revenue: <span class="math inline">\(s_a\)</span> from ad <span class="math inline">\(a\)</span>, where one click pays <span class="math inline">\(r_a\)</span>, up to budget <span class="math inline">\(b_a\)</span>.</li>
+</ul>
+<p><span class="math display">\[
+s_a = \min \left\{ r_a \sum_t k_{at}, b_a\right\},
+\]</span></p>
+<ul>
+<li>What do we want to optimize?</li>
+<li>What shape is <span class="math inline">\(s_a\)</span> as a function of <span class="math inline">\(d_{at}\)</span>?</li>
+</ul>
+</section>
+<section id="ad-optimization" class="slide level2">
+<h2>Ad optimization</h2>
+<p>We choose displays <span class="math inline">\(d_{at}\)</span> to maximize revenue, i.e., we solve</p>
+<p><span class="math display">\[
+\begin{array}{ll}
+\operatorname{maximize}_{d_{at}}   &amp; \sum_a s_a \\
+\mbox{subject to} &amp; d_{at} \geq 0 \quad \text{(non-negative displays)} \\
+                  &amp; \sum_a d_{at} \leq v_t \quad \text{(limited visitors to site)} \\
+                  &amp; \sum_t d_{at} \geq c_a \quad \text{(contractual obligations)}
+\end{array}
+\]</span></p>
+<div class="hidden">
+<p>. . .</p>
+<p>Formulating as matrices, we have</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Notation</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(D = (d_{at}) \in \mathbb{R}^{A \times T}\)</span></td>
+<td>Displays for all ads over time</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(v = (v_t) \in \mathbb{R}^T\)</span></td>
+<td>Visitors over time</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(c = (c_a) \in \mathbb{R}^A\)</span></td>
+<td>Contracted impressions for ads</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(r = (r_a) \in \mathbb{R}^A\)</span></td>
+<td>Revenue per click for ads</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(b = (b_a) \in \mathbb{R}^A\)</span></td>
+<td>Budget for ads</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(P = (p_{at}) \in \mathbb{R}^{A \times T}\)</span></td>
+<td>Probability of click for ads</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="generate-synthetic-data" class="slide level2">
+<h2>Generate synthetic data</h2>
+<p>Generate synthetic data for ad optimization problem:</p>
+<div id="37a8f537" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a>np.random.seed(<span class="dv">30</span>)</span>
+<span id="cb1-4"><a href=""></a>A <span class="op">=</span> <span class="dv">5</span>  <span class="co"># Number of ads</span></span>
+<span id="cb1-5"><a href=""></a>T <span class="op">=</span> <span class="dv">24</span>  <span class="co"># Number of time slots</span></span>
+<span id="cb1-6"><a href=""></a>SCALE <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb1-7"><a href=""></a></span>
+<span id="cb1-8"><a href=""></a><span class="co"># Budget for ads: b_a</span></span>
+<span id="cb1-9"><a href=""></a>b <span class="op">=</span> np.random.lognormal(mean<span class="op">=</span><span class="dv">8</span>, size<span class="op">=</span>(A,)) <span class="op">+</span> <span class="dv">10000</span></span>
+<span id="cb1-10"><a href=""></a>b <span class="op">=</span> <span class="dv">1000</span> <span class="op">*</span> np.<span class="bu">round</span>(b <span class="op">/</span> <span class="dv">1000</span>)</span>
+<span id="cb1-11"><a href=""></a></span>
+<span id="cb1-12"><a href=""></a><span class="co"># Probability of click: p_{at} ∈ R^{AxT}</span></span>
+<span id="cb1-13"><a href=""></a>P <span class="op">=</span> <span class="fl">0.05</span> <span class="op">*</span> np.random.uniform(size<span class="op">=</span>(A, T))</span>
+<span id="cb1-14"><a href=""></a></span>
+<span id="cb1-15"><a href=""></a><span class="co"># Visitors over time: v_t ∈ R^T</span></span>
+<span id="cb1-16"><a href=""></a>v <span class="op">=</span> np.sin(np.linspace(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">2</span>, <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">/</span> <span class="dv">2</span>, T)) <span class="op">*</span> SCALE</span>
+<span id="cb1-17"><a href=""></a>v <span class="op">+=</span> <span class="op">-</span>np.<span class="bu">min</span>(v) <span class="op">+</span> SCALE</span>
+<span id="cb1-18"><a href=""></a></span>
+<span id="cb1-19"><a href=""></a><span class="co"># Contracted impressions: c_a ∈ R^A</span></span>
+<span id="cb1-20"><a href=""></a>c <span class="op">=</span> np.random.uniform(size<span class="op">=</span>A)</span>
+<span id="cb1-21"><a href=""></a>c <span class="op">*=</span> <span class="fl">0.9</span> <span class="op">*</span> v.<span class="bu">sum</span>() <span class="op">/</span> c.<span class="bu">sum</span>()</span>
+<span id="cb1-22"><a href=""></a>c <span class="op">=</span> <span class="dv">1000</span> <span class="op">*</span> np.<span class="bu">round</span>(c <span class="op">/</span> <span class="dv">1000</span>)</span>
+<span id="cb1-23"><a href=""></a></span>
+<span id="cb1-24"><a href=""></a><span class="co"># Revenue per click: r_a ∈ R^A</span></span>
+<span id="cb1-25"><a href=""></a>r <span class="op">=</span> np.random.lognormal(mean<span class="op">=</span><span class="fl">0.0</span>, sigma<span class="op">=</span><span class="fl">0.5</span>, size<span class="op">=</span>A)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="f361f6fd" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="36">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th">ad</th>
+<th data-quarto-table-cell-role="th">0</th>
+<th data-quarto-table-cell-role="th">1</th>
+<th data-quarto-table-cell-role="th">2</th>
+<th data-quarto-table-cell-role="th">3</th>
+<th data-quarto-table-cell-role="th">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">b (budget)</th>
+<td>11000</td>
+<td>24000</td>
+<td>11000</td>
+<td>15000</td>
+<td>13000</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">c (contracted impr)</th>
+<td>88000</td>
+<td>101000</td>
+<td>148000</td>
+<td>52000</td>
+<td>43000</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">r (revenue per click)</th>
+<td>1.164</td>
+<td>0.741</td>
+<td>2.37</td>
+<td>1.12</td>
+<td>1.104</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="view-data" class="slide level2">
+<h2>View data</h2>
+<div id="61937143" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># Visualize visitors over time and show ad parameters</span></span>
+<span id="cb2-2"><a href=""></a><span class="co"># Line chart for visitors v_t</span></span>
+<span id="cb2-3"><a href=""></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb2-4"><a href=""></a>plt.plot(np.arange(<span class="dv">1</span>, T <span class="op">+</span> <span class="dv">1</span>), v, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb2-5"><a href=""></a>plt.title(<span class="st">'Visitors over Time'</span>)</span>
+<span id="cb2-6"><a href=""></a>plt.xlabel(<span class="st">'Time slot t'</span>)</span>
+<span id="cb2-7"><a href=""></a>plt.ylabel(<span class="st">'Visitors v_t'</span>)</span>
+<span id="cb2-8"><a href=""></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-9"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-4-output-1.png" class="quarto-figure quarto-figure-center" width="837" height="523"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="solve-optimization-problem" class="slide level2">
+<h2>Solve Optimization Problem</h2>
+<div id="104bf85c" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="co"># Form and solve the optimal advertising problem (maximize sum_a s_a)</span></span>
+<span id="cb3-2"><a href=""></a><span class="im">import</span> cvxpy <span class="im">as</span> cp</span>
+<span id="cb3-3"><a href=""></a></span>
+<span id="cb3-4"><a href=""></a>D <span class="op">=</span> cp.Variable((A, T))  <span class="co"># D_{a,t}</span></span>
+<span id="cb3-5"><a href=""></a>s <span class="op">=</span> []</span>
+<span id="cb3-6"><a href=""></a><span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(A):</span>
+<span id="cb3-7"><a href=""></a>    clicks_a <span class="op">=</span> cp.<span class="bu">sum</span>(cp.multiply(P[a, :], D[a, :]))  <span class="co"># ∑_t p_{a,t} d_{a,t}</span></span>
+<span id="cb3-8"><a href=""></a>    s.append(cp.minimum(r[a] <span class="op">*</span> clicks_a, b[a]))       <span class="co"># s_a = min{ r_a * clicks_a, b_a }</span></span>
+<span id="cb3-9"><a href=""></a></span>
+<span id="cb3-10"><a href=""></a>prob <span class="op">=</span> cp.Problem(</span>
+<span id="cb3-11"><a href=""></a>    cp.Maximize(cp.<span class="bu">sum</span>(s)),</span>
+<span id="cb3-12"><a href=""></a>    [</span>
+<span id="cb3-13"><a href=""></a>        D <span class="op">&gt;=</span> <span class="dv">0</span>,                              <span class="co"># non-negative displays</span></span>
+<span id="cb3-14"><a href=""></a>        cp.<span class="bu">sum</span>(D, axis<span class="op">=</span><span class="dv">0</span>) <span class="op">&lt;=</span> v,              <span class="co"># ∑_a d_{a,t} ≤ v_t</span></span>
+<span id="cb3-15"><a href=""></a>        cp.<span class="bu">sum</span>(D, axis<span class="op">=</span><span class="dv">1</span>) <span class="op">&gt;=</span> c,              <span class="co"># ∑_t d_{a,t} ≥ c_a</span></span>
+<span id="cb3-16"><a href=""></a>    ],</span>
+<span id="cb3-17"><a href=""></a>)</span>
+<span id="cb3-18"><a href=""></a>prob.solve()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>25962.688502001343</code></pre>
+</div>
+</div>
+<div id="7271e4f0" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-6-output-1.png" class="quarto-figure quarto-figure-center" width="785" height="523"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="check-constraints" class="slide level2">
+<h2>Check Constraints</h2>
+<p><strong>Print if all constraints are satisfied:</strong></p>
+<div id="d65a9a2a" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="co"># Check constraints</span></span>
+<span id="cb5-2"><a href=""></a>displays <span class="op">=</span> D.value</span>
+<span id="cb5-3"><a href=""></a><span class="bu">print</span>(<span class="st">"Check non-negative displays (D &gt;= 0):"</span>, np.<span class="bu">all</span>(displays <span class="op">&gt;=</span> <span class="dv">0</span>))</span>
+<span id="cb5-4"><a href=""></a><span class="bu">print</span>(<span class="st">"Check limited visitors to site (∑_a d_{a,t} ≤ v):"</span>, np.<span class="bu">all</span>(displays.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">&lt;=</span> v <span class="op">+</span> <span class="fl">1e-5</span>))</span>
+<span id="cb5-5"><a href=""></a><span class="bu">print</span>(<span class="st">"Check contractual obligations (∑_t d_{a,t} ≥ c):"</span>, np.<span class="bu">all</span>(displays.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">&gt;=</span> c <span class="op">-</span> <span class="fl">1e-5</span>))</span>
+<span id="cb5-6"><a href=""></a><span class="bu">print</span>(<span class="st">"Check if total revenue is within budgets:"</span>, <span class="bu">all</span>(</span>
+<span id="cb5-7"><a href=""></a>    r[a] <span class="op">*</span> (P[a, :] <span class="op">@</span> displays[a, :]) <span class="op">&lt;=</span> b[a] <span class="op">+</span> <span class="fl">1e-5</span> <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(A)</span>
+<span id="cb5-8"><a href=""></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Check non-negative displays (D &gt;= 0): True
+Check limited visitors to site (∑_a d_{a,t} ≤ v): True
+Check contractual obligations (∑_t d_{a,t} ≥ c): True
+Check if total revenue is within budgets: True</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Print total revenue achieved:</strong></p>
+<div id="b5e14be4" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="co"># Calculate total revenue</span></span>
+<span id="cb7-2"><a href=""></a>total_revenue <span class="op">=</span> prob.value</span>
+<span id="cb7-3"><a href=""></a><span class="bu">print</span>(<span class="st">"Total Revenue Achieved: $"</span>, <span class="bu">round</span>(total_revenue, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total Revenue Achieved: $ 25962.69</code></pre>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="optimization-algorithms-gradient-descent" class="title-slide slide level1 center">
+<h1>Optimization Algorithms: Gradient Descent</h1>
+
+</section>
+<section id="direction-of-function-decrease" class="slide level2">
+<h2>Direction of Function Decrease</h2>
+<p>Find <span class="math inline">\(x^*\)</span> that minimize function <span class="math inline">\(f(x)\)</span>: <span class="math display">\[ x^* = \arg\min_x f(x). \]</span></p>
+<ul>
+<li class="fragment"><p>Starting at <span class="math inline">\(x=a\)</span>, is minimum to left or right?</p></li>
+<li class="fragment"><p>Starting at <span class="math inline">\(x=a\)</span>, does <span class="math inline">\(f(x)\)</span> <em>decreases</em> to left or right?</p></li>
+<li class="fragment"><p>Repeatedly decrease <span class="math inline">\(f(x)\)</span> by adjusting <span class="math inline">\(x\)</span></p></li>
+<li class="fragment"><p>When <span class="math inline">\(f(x)\)</span> stops decreasing (<span class="math inline">\(x\)</span> converges to a point), stop</p></li>
+<li class="fragment"><p><strong>How to determine the direction of function decrease?</strong></p></li>
+</ul>
+</section>
+<section id="univariate-convex-function" class="slide level2">
+<h2>Univariate Convex Function</h2>
+<div title="Convex Function">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Convex Function</strong></p>
+</div>
+<div class="callout-content">
+<p>Differentiable convex function <span class="math inline">\(g(x)\)</span> satisfies <span class="math display">\[g(x) \geq g(a) + g'(a)(x-a),\]</span> for any valid <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div id="4df6c133" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-9-output-1.png" width="664" height="503"></p>
+<figcaption>Convex function <span class="math inline">\(g(x) = (x-2)^2 + 1\)</span> and its tangent line at <span class="math inline">\(x=a\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="descent-direction" class="slide level2">
+<h2>Descent Direction</h2>
+<div title="Convex Function">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Convex Function</strong></p>
+</div>
+<div class="callout-content">
+<p>Differentiable convex function <span class="math inline">\(g(x)\)</span> satisfies <span class="math display">\[g(x) \geq g(a) + g'(a)(x-a),\]</span> for any valid <span class="math inline">\(x\)</span> and <span class="math inline">\(a\)</span></p>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment"><p>Starting at point <span class="math inline">\(a\)</span>, find <span class="math inline">\(b\)</span> decreases <span class="math inline">\(f\)</span>: i.e.,<br>
+<span class="math display">\[f(a) - f(b) \geq 0\]</span></p></li>
+<li class="fragment"><p>For a convex function <span class="math inline">\(f\)</span>, show that <span class="math inline">\(b\)</span> satisfies <span class="math display">\[f'(a)(b-a) \leq 0\]</span></p></li>
+</ul>
+</section>
+<section id="example-univariate-quadratic-function" class="slide level2">
+<h2>Example: Univariate Quadratic Function</h2>
+<p>Objective function: <span class="math inline">\(f(x) = (x+1)^2\)</span> and <span class="math inline">\(x\in\mathbb{R}\)</span></p>
+<ul>
+<li class="fragment"><p>Satisfying <span class="math inline">\(f^{\prime}(a)(b-a)\leq 0\)</span></p>
+<ul>
+<li class="fragment">Case 1: if slope <span class="math inline">\(f'(a)&lt;0\)</span>, we need <span class="math inline">\(b&gt;a\)</span>: i.e.&nbsp;move right.</li>
+<li class="fragment">Case 2: if slope is <span class="math inline">\(f'(a)&gt;0\)</span>, we need <span class="math inline">\(b&lt;a\)</span>: i.e.&nbsp;move left</li>
+<li class="fragment">Case 3: if slope is <span class="math inline">\(f'(a)=0\)</span>, we are at the minimum</li>
+</ul></li>
+<li class="fragment"><p><span class="math inline">\(b \leftarrow a - f'(a)\)</span> is a possibility, but could overshoot!</p></li>
+<li class="fragment"><p>How big of a step? A small enough <span class="math inline">\(\alpha\)</span> (step size) works: <span class="math display">\[b \leftarrow a - \alpha\cdot f'(a)\]</span></p></li>
+</ul>
+</section>
+<section id="example-1-univariate-quadratic-function" class="slide level2">
+<h2>Example 1: Univariate Quadratic Function</h2>
+<div id="953080df" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a><span class="kw">def</span> f(x): <span class="cf">return</span> (x<span class="op">+</span><span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb9-2"><a href=""></a><span class="kw">def</span> fprime(x): <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>(x<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb9-3"><a href=""></a></span>
+<span id="cb9-4"><a href=""></a><span class="kw">def</span> find_minimum_1(func, slope, a <span class="op">=</span> <span class="dv">2</span>, step<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">1000</span>):</span>
+<span id="cb9-5"><a href=""></a>    </span>
+<span id="cb9-6"><a href=""></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, max_iter):</span>
+<span id="cb9-7"><a href=""></a>        </span>
+<span id="cb9-8"><a href=""></a>        <span class="co"># find next target point</span></span>
+<span id="cb9-9"><a href=""></a>        b <span class="op">=</span> a <span class="op">-</span> step<span class="op">*</span>slope(a)</span>
+<span id="cb9-10"><a href=""></a>        </span>
+<span id="cb9-11"><a href=""></a>        <span class="co"># set target point as the new starting point</span></span>
+<span id="cb9-12"><a href=""></a>        a <span class="op">=</span> b</span>
+<span id="cb9-13"><a href=""></a>    </span>
+<span id="cb9-14"><a href=""></a>    <span class="cf">return</span> b</span>
+<span id="cb9-15"><a href=""></a></span>
+<span id="cb9-16"><a href=""></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, num<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb9-17"><a href=""></a>xstar <span class="op">=</span> find_minimum_1(f, fprime)</span>
+<span id="cb9-18"><a href=""></a></span>
+<span id="cb9-19"><a href=""></a><span class="bu">print</span>(<span class="st">'  xstar  = </span><span class="sc">%f</span><span class="st">, f(xstar) = </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (xstar, f(xstar)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  xstar  = -1.000000, f(xstar) = 0.000000</code></pre>
+</div>
+</div>
+<div id="a7900b59" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-11-output-1.png" width="669" height="527"></p>
+<figcaption>Function <span class="math inline">\(f(x) = (x+1)^2\)</span> and its minimum point</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-2-univariate-quadratic-function" class="slide level2">
+<h2>Example 2: Univariate Quadratic Function</h2>
+<div id="00f535f8" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="kw">def</span> g(x): <span class="cf">return</span> (x<span class="op">-</span><span class="fl">3.2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> x <span class="op">+</span> <span class="fl">2.3</span></span>
+<span id="cb11-2"><a href=""></a><span class="kw">def</span> gprime(x): <span class="cf">return</span> <span class="dv">2</span><span class="op">*</span>(x<span class="op">-</span><span class="fl">3.2</span>) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb11-3"><a href=""></a></span>
+<span id="cb11-4"><a href=""></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">8</span>, num<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb11-5"><a href=""></a>xstar <span class="op">=</span> find_minimum_1(g, gprime)</span>
+<span id="cb11-6"><a href=""></a></span>
+<span id="cb11-7"><a href=""></a><span class="bu">print</span>(<span class="st">'  xstar  = </span><span class="sc">%f</span><span class="st">, g(xstar) = </span><span class="sc">%f</span><span class="st">'</span> <span class="op">%</span> (xstar, g(xstar)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  xstar  = 3.700000, g(xstar) = -1.150000</code></pre>
+</div>
+</div>
+<div id="7a682c8c" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-13-output-1.png" width="661" height="527"></p>
+<figcaption>Function <span class="math inline">\(g(x) = (x-3.2)^2 - x + 2.3\)</span> and its minimum point</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="improving-optimization-algorithm" class="slide level2">
+<h2>Improving Optimization Algorithm</h2>
+<div id="08ce2138" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a><span class="kw">def</span> find_minimum_2(func, slope, x0 <span class="op">=</span> <span class="dv">2</span>, rate<span class="op">=</span><span class="fl">0.1</span>, message<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb13-2"><a href=""></a></span>
+<span id="cb13-3"><a href=""></a>    <span class="cf">assert</span>(rate <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> rate <span class="op">&lt;</span> <span class="dv">1</span>)</span>
+<span id="cb13-4"><a href=""></a></span>
+<span id="cb13-5"><a href=""></a>    c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-6"><a href=""></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">1000</span>):</span>
+<span id="cb13-7"><a href=""></a></span>
+<span id="cb13-8"><a href=""></a>        <span class="co"># find next target point </span></span>
+<span id="cb13-9"><a href=""></a>        x1 <span class="op">=</span> x0 <span class="op">-</span> rate<span class="op">*</span>slope(x0)</span>
+<span id="cb13-10"><a href=""></a>        </span>
+<span id="cb13-11"><a href=""></a>        <span class="cf">if</span> np.isclose(x1, x0, rtol<span class="op">=</span><span class="fl">1e-5</span>):</span>
+<span id="cb13-12"><a href=""></a>            <span class="cf">if</span> message:</span>
+<span id="cb13-13"><a href=""></a>                <span class="bu">print</span>(<span class="st">'converged in </span><span class="sc">%d</span><span class="st"> iterations'</span> <span class="op">%</span> c)</span>
+<span id="cb13-14"><a href=""></a>            <span class="cf">return</span> x1</span>
+<span id="cb13-15"><a href=""></a>        </span>
+<span id="cb13-16"><a href=""></a>        <span class="cf">if</span> func(x1) <span class="op">&lt;</span> func(x0): <span class="co"># func decreased</span></span>
+<span id="cb13-17"><a href=""></a>            x0 <span class="op">=</span> x1</span>
+<span id="cb13-18"><a href=""></a>            c <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb13-19"><a href=""></a>        <span class="cf">else</span>:                   <span class="co"># func did not decrease</span></span>
+<span id="cb13-20"><a href=""></a>            rate <span class="op">*=</span> rate        <span class="co"># reduce step size</span></span>
+<span id="cb13-21"><a href=""></a>    </span>
+<span id="cb13-22"><a href=""></a>    <span class="bu">print</span>(<span class="st">'warning: algorithm did not converge'</span>)</span>
+<span id="cb13-23"><a href=""></a>    </span>
+<span id="cb13-24"><a href=""></a>    <span class="cf">return</span> x1</span>
+<span id="cb13-25"><a href=""></a></span>
+<span id="cb13-26"><a href=""></a>xstar <span class="op">=</span> find_minimum_2(g, gprime, message<span class="op">=</span><span class="va">True</span>) <span class="co">## less number of loops</span></span>
+<span id="cb13-27"><a href=""></a>g(xstar)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>converged in 41 iterations</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>-1.1499999790850541</code></pre>
+</div>
+</div>
+</section>
+<section id="complexity-vs.-running-time" class="slide level2">
+<h2>Complexity vs.&nbsp;Running time</h2>
+<p>Algorithm complexity and running times are different concepts:</p>
+<div id="330d5e33" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a><span class="op">%</span>timeit <span class="op">-</span>n10 <span class="op">-</span>r10 find_minimum_1(g, gprime) <span class="co">## faster running time</span></span>
+<span id="cb16-2"><a href=""></a></span>
+<span id="cb16-3"><a href=""></a><span class="op">%</span>timeit <span class="op">-</span>n10 <span class="op">-</span>r10 find_minimum_2(g, gprime) <span class="co">## slower running time</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>111 µs ± 7.08 µs per loop (mean ± std. dev. of 10 runs, 10 loops each)
+823 µs ± 18.9 µs per loop (mean ± std. dev. of 10 runs, 10 loops each)</code></pre>
+</div>
+</div>
+</section>
+<section id="directional-derivative-and-gradient" class="slide level2">
+<h2>Directional Derivative and Gradient</h2>
+<div title="Directional Derivative and Gradient">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Directional Derivative and Gradient</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f: D \rightarrow \mathbb{R}\)</span> where <span class="math inline">\(D \subseteq \mathbb{R}^d\)</span>, let <span class="math inline">\(\mathbf{x}_0 \in D\)</span> be an interior point of <span class="math inline">\(D\)</span> and let <span class="math inline">\(\mathbf{v} \in \mathbb{R}^d\)</span> be a vector. Assume that <span class="math inline">\(f\)</span> is continuously differentiable at <span class="math inline">\(\mathbf{x}_0\)</span>. Then the directional derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(\mathbf{x}_0\)</span> in the direction <span class="math inline">\(\mathbf{v}\)</span> is given by</p>
+<p><span class="math display">\[
+\frac{\partial f\left(\mathbf{x}_0\right)}{\partial \mathbf{v}}=\nabla f\left(\mathbf{x}_0\right)^T \mathbf{v}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div id="79fae3b3" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="09-mathematical-programming_files/figure-revealjs/cell-16-output-1.png" width="674" height="527"></p>
+<figcaption>Contour plot of <span class="math inline">\(f(x, y) = (x-1)^2 + (y-2)^2\)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="multivariate-convex-function" class="slide level2">
+<h2>Multivariate Convex Function</h2>
+<div title="First-Order Convexity Condition">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>First-Order Convexity Condition</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f: D \rightarrow \mathbb{R}\)</span> be continuously differentiable, where <span class="math inline">\(D \subseteq \mathbb{R}^d\)</span> is convex. Then <span class="math inline">\(f\)</span> is convex over <span class="math inline">\(D\)</span> if and only if</p>
+<p><span class="math display">\[
+f(\mathbf{y}) \geq f(\mathbf{x})+\nabla f(\mathbf{x})^T(\mathbf{y}-\mathbf{x}), \quad \forall \mathbf{x}, \mathbf{y} \in D
+\]</span></p>
+<p>Note that the right-hand side is the linear approximation to <span class="math inline">\(f\)</span> at <span class="math inline">\(\mathbf{x}\)</span> from Taylor’s Theorem without the remainder.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div title="Descent Direction and Directional Derivative">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Descent Direction and Directional Derivative</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f: \mathbb{R}^d \rightarrow \mathbb{R}\)</span> be continuously differentiable at <span class="math inline">\(\mathbf{x}_0\)</span>. A vector <span class="math inline">\(\mathbf{v}\)</span> is a descent direction for <span class="math inline">\(f\)</span> at <span class="math inline">\(\mathbf{x}_0\)</span> if</p>
+<p><span class="math display">\[
+\frac{\partial f\left(\mathbf{x}_0\right)}{\partial \mathbf{v}}=\nabla f\left(\mathbf{x}_0\right)^T \mathbf{v}&lt;0
+\]</span></p>
+<p>that is, if the directional derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(\mathbf{x}_0\)</span> in the direction <span class="math inline">\(\mathbf{v}\)</span> is negative. <span class="math inline">\(b\)</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-descent-algorithm" class="slide level2">
+<h2>Gradient Descent Algorithm</h2>
+<div title="Direction of Steepest Descent">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Direction of Steepest Descent</strong></p>
+</div>
+<div class="callout-content">
+<p>Let <span class="math inline">\(f: \mathbb{R}^d \rightarrow \mathbb{R}\)</span> be continuously differentiable at <span class="math inline">\(\mathbf{x}_0\)</span>. For any unit vector <span class="math inline">\(\mathbf{v} \in \mathbb{R}^d\)</span>,</p>
+<p><span class="math display">\[
+\frac{\partial f\left(\mathbf{x}_0\right)}{\partial \mathbf{v}} \geq \frac{\partial f\left(\mathbf{x}_0\right)}{\partial \mathbf{v}^*}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\mathbf{v}^*=-\frac{\nabla f\left(\mathbf{x}_0\right)}{\left\|\nabla f\left(\mathbf{x}_0\right)\right\|}
+\]</span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div title="Gradient Descent Algorithm">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Gradient Descent Algorithm</strong></p>
+</div>
+<div class="callout-content">
+<p>Each iteration of gradient descent takes a step in the direction of the negative of the gradient:</p>
+<p><span class="math display">\[
+\mathbf{x}^{t+1}=\mathbf{x}^t-\alpha_t \nabla f\left(\mathbf{x}^t\right), \quad t=0,1,2 \ldots
+\]</span></p>
+<p>for a sequence of step sizes <span class="math inline">\(\alpha_t&gt;0\)</span>. The algorithm is initialized with an initial guess <span class="math inline">\(\mathbf{x}^0\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-lasso-regression" class="slide level2">
+<h2>Example: Lasso Regression</h2>
+<p>The lasso can be written in Lagrangian (unconstrained) form as:</p>
+<p><span class="math display">\[
+\operatorname{minimize}_{\boldsymbol{\beta}} \quad \frac{1}{2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 + \lambda \|\boldsymbol{\beta}\|_1
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{y} \in \mathbb{R}^n\)</span> is response, <span class="math inline">\(\mathbf{X} \in \mathbb{R}^{n \times p}\)</span> is design matrix, <span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^p\)</span> are coefficients, and <span class="math inline">\(\lambda \geq 0\)</span> is regularization parameter.</p>
+<div class="fragment">
+<p>In constrained form, <span class="math display">\[
+\begin{array}{ll}
+\operatorname{minimize}_{\boldsymbol{\beta}} &amp; \frac{1}{2}\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 \\
+\text{subject to} &amp; \|\boldsymbol{\beta}\|_1 \leq t
+\end{array},
+\]</span></p>
+<p>where <span class="math inline">\(t \geq 0\)</span> controls the amount of regularization.</p>
+</div>
+</section>
+<section id="example-lasso-regression-via-gradient-descent" class="slide level2">
+<h2>Example: Lasso Regression via Gradient Descent</h2>
+<div id="d94a8e44" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_regression</span>
+<span id="cb18-2"><a href=""></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb18-3"><a href=""></a><span class="co"># Generate synthetic regression data</span></span>
+<span id="cb18-4"><a href=""></a>n_samples, n_features <span class="op">=</span> <span class="dv">100</span>, <span class="dv">20</span></span>
+<span id="cb18-5"><a href=""></a>X, y <span class="op">=</span> make_regression(n_samples<span class="op">=</span>n_samples, n_features<span class="op">=</span>n_features, noise<span class="op">=</span><span class="fl">10.0</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb18-6"><a href=""></a>X <span class="op">=</span> StandardScaler().fit_transform(X)</span>
+<span id="cb18-7"><a href=""></a>y <span class="op">=</span> y <span class="op">-</span> np.mean(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div id="a8970922" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="co"># Lasso objective function and its gradient</span></span>
+<span id="cb19-2"><a href=""></a><span class="kw">def</span> lasso_objective(beta, X, y, lam):</span>
+<span id="cb19-3"><a href=""></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.linalg.norm(y <span class="op">-</span> X <span class="op">@</span> beta)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> lam <span class="op">*</span> np.linalg.norm(beta, <span class="dv">1</span>)</span>
+<span id="cb19-4"><a href=""></a></span>
+<span id="cb19-5"><a href=""></a><span class="kw">def</span> lasso_gradient(beta, X, y, lam):</span>
+<span id="cb19-6"><a href=""></a>    grad <span class="op">=</span> <span class="op">-</span>X.T <span class="op">@</span> (y <span class="op">-</span> X <span class="op">@</span> beta)</span>
+<span id="cb19-7"><a href=""></a>    grad <span class="op">+=</span> lam <span class="op">*</span> np.sign(beta)</span>
+<span id="cb19-8"><a href=""></a>    <span class="cf">return</span> grad</span>
+<span id="cb19-9"><a href=""></a></span>
+<span id="cb19-10"><a href=""></a></span>
+<span id="cb19-11"><a href=""></a><span class="co"># Gradient descent for Lasso regression</span></span>
+<span id="cb19-12"><a href=""></a><span class="kw">def</span> gradient_descent_lasso(X, y, lam, alpha<span class="op">=</span><span class="fl">0.01</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-6</span>):</span>
+<span id="cb19-13"><a href=""></a>    n_features <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
+<span id="cb19-14"><a href=""></a>    beta <span class="op">=</span> np.zeros(n_features)</span>
+<span id="cb19-15"><a href=""></a>    </span>
+<span id="cb19-16"><a href=""></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb19-17"><a href=""></a>        grad <span class="op">=</span> lasso_gradient(beta, X, y, lam)</span>
+<span id="cb19-18"><a href=""></a>        beta_new <span class="op">=</span> beta <span class="op">-</span> alpha <span class="op">*</span> grad</span>
+<span id="cb19-19"><a href=""></a>        </span>
+<span id="cb19-20"><a href=""></a>        <span class="cf">if</span> np.linalg.norm(beta_new <span class="op">-</span> beta, <span class="bu">ord</span><span class="op">=</span><span class="dv">2</span>) <span class="op">&lt;</span> tol:</span>
+<span id="cb19-21"><a href=""></a>            <span class="bu">print</span>(<span class="ss">f'Converged in </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> iterations'</span>)</span>
+<span id="cb19-22"><a href=""></a>            <span class="cf">break</span></span>
+<span id="cb19-23"><a href=""></a>        </span>
+<span id="cb19-24"><a href=""></a>        beta <span class="op">=</span> beta_new</span>
+<span id="cb19-25"><a href=""></a>    </span>
+<span id="cb19-26"><a href=""></a>    <span class="cf">return</span> beta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="libraries-and-types-of-optimization-problems" class="slide level2 smaller">
+<h2>Libraries and Types of Optimization Problems</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">LP</th>
+<th style="text-align: left;">QP</th>
+<th style="text-align: left;">SOCP</th>
+<th style="text-align: left;">SDP</th>
+<th style="text-align: left;">EXP</th>
+<th style="text-align: left;">POW</th>
+<th style="text-align: left;">MIP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://projects.coin-or.org/Cbc">CBC</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://oxfordcontrol.github.io/ClarabelDocs/">CLARABEL</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/COPT-Public/COPT-Release">COPT</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://darnstrom.github.io/daqp/">DAQP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://developers.google.com/optimization">GLOP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://www.gnu.org/software/glpk/">GLPK</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://www.gnu.org/software/glpk/">GLPK_MI</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://osqp.org/">OSQP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://predict-epfl.github.io/piqp/">PIQP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/simple-robotics/proxsuite">PROXQP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://developers.google.com/optimization">PDLP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://qoco-org.github.io/qoco/">QOCO</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://www.ibm.com/docs/en/icos">CPLEX</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://nag.com/mathematical-optimization/">NAG</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">x</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">LP</th>
+<th style="text-align: left;">QP</th>
+<th style="text-align: left;">SOCP</th>
+<th style="text-align: left;">SDP</th>
+<th style="text-align: left;">EXP</th>
+<th style="text-align: left;">POW</th>
+<th style="text-align: left;">MIP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://www.embotech.com/ECOS">ECOS</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://www.gurobi.com/">GUROBI</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://www.mosek.com/">MOSEK</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/MIT-Lu-Lab/MPAX">MPAX</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/cvxgrp/CuClarabel">CUCLARABEL</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/NVIDIA/cuopt">CUOPT</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="http://cvxopt.org/">CVXOPT</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://sdpa-python.github.io">SDPA</a> ***</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="http://github.com/cvxgrp/scs">SCS</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://scip.zib.de/">SCIP</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://www.fico.com/en/products/fico-xpress-optimization">XPRESS</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linprog.html#scipy.optimize.linprog">SCIPY</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://highs.dev/">HiGHS</a></td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">X</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">X*</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="09-mathematical-programming_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="09-mathematical-programming_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

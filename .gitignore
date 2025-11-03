@@ -3,6 +3,7 @@
 *_cache
 
 !docs/**/*.html
+!docs/**/*_files
 .jupyter_cache
 
 __pycache__/
