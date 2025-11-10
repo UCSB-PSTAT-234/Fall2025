@@ -9,3 +9,4 @@
 - [07 Linear Algebra for Data Science](07-linear-algebra-for-data-science.html)
 - [08 Mathematical Programming](08-mathematical-programming.html)
 - [09 Mathematical Programming](09-mathematical-programming.html)
+- [10 movie recommender system](10-movie-recommender-system.html)
