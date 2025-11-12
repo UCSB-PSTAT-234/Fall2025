@@ -1,9 +1,11 @@
 *.html
 *_files
 *_cache
+tmp/
 
 !docs/**/*.html
-!docs/**/*_files
 .jupyter_cache
 
 __pycache__/
+
+draft-slides/
