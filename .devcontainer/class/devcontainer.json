@@ -2,7 +2,7 @@
     "name": "PSTAT 234 class",
     
     "dockerFile": "Containerfile",
-    //"image": "ghcr.io/ucsb-pstat-234/fall2025:class-v0.0.2-alpha",
+    //"image": "ghcr.io/ucsb-pstat-234/fall2025:class-v0.0.4-alpha",
     
 
     "overrideCommand": false,

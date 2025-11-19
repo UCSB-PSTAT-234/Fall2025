@@ -40,7 +40,9 @@ RUN pip install \
         cvxpy==1.7.3 \
         yfinance==0.2.66 \
         otter-grader \
-        radian
+        radian \
+        && \
+    pip install --upgrade seaborn
 
 RUN quarto install tinytex
 
@@ -55,5 +57,6 @@ RUN echo 'options(repos=c(CRAN="https://cloud.r-project.org"))' > ~/.Rprofile &&
 RUN echo "echo \"Jupyter server token: \$(jupyter server list 2>&1 | grep -oP '(?<=token=)[[:alnum:]]*')\"" > ${HOME}/.get-jupyter-url.sh && \
     echo "sh \${HOME}/.get-jupyter-url.sh" >> ${HOME}/.bashrc
 
-RUN R -q -e 'install.packages(c("bootstrap","resample","kableExtra"))' && \
-    R -q -e 'remotes::install_version("reticulate", version="1.43.0")'
+RUN R -q -e 'if (!require("BiocManager", quietly = TRUE)) { install.packages("BiocManager"); }; BiocManager::install("Biobase", update = FALSE);' && \
+    R -q -e 'remotes::install_version("reticulate", version="1.43.0")' && \
+    R -q -e 'install.packages(c("bootstrap","resample","kableExtra", "fastICA", "NMF"))'
