@@ -10,3 +10,5 @@
 - [08 Mathematical Programming](08-mathematical-programming.html)
 - [09 Mathematical Programming](09-mathematical-programming.html)
 - [10 movie recommender system](10-movie-recommender-system.html)
+- [12 optimizing stock portfolio allocation](12-optimizing-stock-portfolio-allocation.html)
+- [13 covariance estimation](13-covariance-estimation.html)
